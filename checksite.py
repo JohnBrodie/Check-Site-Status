@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# This prgram is Licenced under GPL, see http://www.gnu.org/copyleft/gpl.html
+# Author: John Brodie
+# Search for specific message in webpage, send email if we don't find it, or if we get an HTTP error code.
 import urllib2, string, smtplib
 from email.mime.text import MIMEText
 site="http://example.com" #Site we want to check on.
