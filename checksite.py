@@ -2,8 +2,11 @@
 # This prgram is Licenced under GPL, see http://www.gnu.org/copyleft/gpl.html
 # Author: John Brodie
 # Search for specific message in webpage, send email if we don't find it, or if we get an HTTP error code.
-import urllib2, string, smtplib
+import urllib2, string, smtplib, socket
 from email.mime.text import MIMEText
+
+timeout = 10 #Timeout in seconds
+socket.setdefaulttimeout(timeout)
 site="http://example.com" #Site we want to check on.
 message="blah blah blah" #Message we are verifying against.
 mailserv= smtplib.SMTP("smtp.gmail.com", 587) #Server,port
@@ -18,6 +21,8 @@ try:
 	body = f.read()
 except urllib2.HTTPError as e:
 	err=str(e.code)
+except urllib2.URLError, e:
+	err=str(e.reason)
 
 if string.find(body,message) == -1:
 	msg = MIMEText("Could not find text \" "+message+"\" at "+site+"\n Recieved error: " +err)
