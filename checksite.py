@@ -1,4 +1,3 @@
-"""Check if a site is up with specific content"""
 #!/usr/bin/env python
 # This prgram is Licenced under GPL, see http://www.gnu.org/copyleft/gpl.html
 # Author: John Brodie
@@ -10,12 +9,14 @@ import smtplib
 import socket
 
 from email.mime.text import MIMEText
+from os.path import expanduser
 
 
 def check_site():
     """ Make request, catch any errors and send a mail."""
-    config = ConfigParser.RawConfigParser()
-    config.read('checksite.cfg')
+    config = ConfigParser.RawConfigParser(allow_no_value=True)
+    config_file = expanduser('~/.checksite.cfg')
+    config.read(config_file)
     try:
         site = config.get('Required', 'site')
         mail_server = config.get('Required', 'mail_server')
@@ -23,17 +24,12 @@ def check_site():
         fromaddr = config.get('Required', 'from_addr')
         toaddr = config.get('Required', 'to_addr')
         password = config.get('Required', 'password')
+        check = config.get('Required', 'check')
+        timeout = config.getint('Required', 'timeout')
 
-        check = config.get('Optional', 'check')
-        timeout = config.getint('Optional', 'timeout')
-
-    except ConfigParser.NoOptionError:
+    except ConfigParser.NoOptionError, error:
+        print error
         return 4
-
-    if not timeout:
-        timeout = 10
-    if not check:
-        check = ''
 
     socket.setdefaulttimeout(timeout)
 
