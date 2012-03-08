@@ -11,7 +11,8 @@ Copy `checksite.py` to $HOME/bin, make appropriate permissions.
     cp checksite.py $HOME/bin
     chmod +x $HOME/bin/checksite.py
 
-Open checksite.py with your favorite editor, and fill your details in the username/password/mailserv/site/message fields.
+Edit checksite.cfg as appropriate and place in your homedir.
+
 Note that this file now contains your email server password, and so should be duly restricted.  `man chmod` for more info.
 
 Run with `python checksite.py`.  To make it more useful, put it in your crontab:
@@ -19,7 +20,7 @@ Run with `python checksite.py`.  To make it more useful, put it in your crontab:
 - Make sure you have access to crontab.
 - Use `crontab -e` to open your crontab for editing.
 - Add a line to run checksite as often as desired.  For example:
-`*/15 * * * * /home/ogmios/bin/checksite`
+`*/15 * * * * /home/someone/bin/checksite`
 ...will run the script every 15 minutes.
 - Note cron does not like spaces in file names, so:
 `mv $HOME/bin/checksite.py $HOME/bin/checksite`
